@@ -11,3 +11,8 @@ Status
 ======
 
 In development
+
+License
+=======
+
+Apache 2.0, see LICENSE file.
