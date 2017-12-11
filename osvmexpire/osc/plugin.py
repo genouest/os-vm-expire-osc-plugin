@@ -53,6 +53,12 @@ def build_option_parser(parser):
         initialized by OpenStackShell.
     """
     parser.add_argument(
+        '--os-osvmexpire-service-type',
+        metavar='<osvmexpire-service-type>',
+        help='os-vm-expire service type, default=' +
+             'vmexpire' +
+             ' (Env: OS_OSCPLUGIN_SERVICE_TYPE)')
+    parser.add_argument(
         '--os-osvmexpire-api-version',
         metavar='<osvmexpire-api-version>',
         help='OSC Plugin API version, default=' +
