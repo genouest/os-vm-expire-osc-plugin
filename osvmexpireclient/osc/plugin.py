@@ -18,7 +18,7 @@ DEFAULT_API_VERSION = '1'
 API_NAME = 'osvmexpire'
 API_VERSION_OPTION = 'os_vmexpire_api_version'
 API_VERSIONS = {
-    '1': 'osvmexpire.v1.client.Client',
+    '1': 'osvmexpireclient.v1.client.Client',
 }
 
 

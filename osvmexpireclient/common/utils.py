@@ -28,8 +28,8 @@ from six.moves.urllib import parse
 from six.moves.urllib import request
 import yaml
 
-from osvmexpire._i18n import _
-from osvmexpire import exc
+from osvmexpireclient._i18n import _
+from osvmexpireclient import exc
 
 LOG = logging.getLogger(__name__)
 

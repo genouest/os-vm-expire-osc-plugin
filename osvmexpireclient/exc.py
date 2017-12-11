@@ -15,7 +15,7 @@ import sys
 from oslo_serialization import jsonutils
 from oslo_utils import reflection
 
-from osvmexpire._i18n import _
+from osvmexpireclient._i18n import _
 
 verbose = 0
 

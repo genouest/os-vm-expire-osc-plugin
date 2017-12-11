@@ -19,8 +19,8 @@ from osc_lib.command import command
 
 from oslo_utils import encodeutils
 
-from osvmexpire._i18n import _
-from osvmexpire import exc as osvmexpire_exc
+from osvmexpireclient._i18n import _
+from osvmexpireclient import exc as osvmexpire_exc
 
 SERVICE_TYPE = 'vmexpire'
 
