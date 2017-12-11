@@ -1,0 +1,5 @@
+---
+prelude: >
+    First release of os-vm-expire osc plugin
+features:
+  - Openstack client to manage os-vm-expire.
