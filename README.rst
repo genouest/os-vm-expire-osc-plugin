@@ -1,9 +1,13 @@
-# OSC plugin for os-vm-expire
+===========================
+OSC plugin for os-vm-expire
+===========================
 
-## About
+About
+=====
 
 This project is an Openstack client for os-vm-expire (https://github.com/genouest/os-vm-expire)
 
-## Status
+Status
+======
 
 In development
