@@ -13,7 +13,7 @@ doc/source/api
 doc/build
 *.egg
 *.eggs
-heatclient/versioninfo
+osvmexpire/versioninfo
 *.egg-info
 *.log
 .testrepository
