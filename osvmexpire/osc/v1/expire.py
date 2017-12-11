@@ -37,7 +37,11 @@ EXPIRE_COLUMNS = [
 
 
 def get_endpoint(client_manager):
-    return client_manager.get_endpoint_for_service_type(SERVICE_TYPE)
+    service = SERVICE_TYPE
+    config = client_manager.get_configuration()
+    if 'osvmexpire_service_type' in config:
+        service = config['osvmexpire_service_type']
+    return client_manager.get_endpoint_for_service_type(service)
 
 
 def pretty_print(columns, data):
