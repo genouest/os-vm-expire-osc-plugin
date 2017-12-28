@@ -180,6 +180,12 @@ class ShowExclude(command.Command):
         res = req.json()
         if 'vmexclude' not in res:
             raise osvmexpire_exc.HTTPNotFound()
+        if res['exclude_type'] == 0:
+            res['exclude_type'] = 'domain'
+        if res['exclude_type'] == 1:
+            res['exclude_type'] = 'project'
+        if res['exclude_type'] == 2:
+            res['exclude_type'] = 'user'
         return res['vmexclude']
 
 
