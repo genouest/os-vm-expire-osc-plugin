@@ -44,10 +44,7 @@ def pretty_print(columns, data):
     for d in data:
         row = []
         for column in columns:
-            if column == 'expire':
-                row.append(str(datetime.datetime.fromtimestamp(d[column])))
-            else:
-                row.append(str(d[column]))
+            row.append(str(d[column]))
         pt.add_row(row)
 
     if six.PY3:
@@ -57,10 +54,10 @@ def pretty_print(columns, data):
 
 
 class CreateExclude(command.Command):
-    """Extend osvmexpire"""
+    """Create osvmexclude"""
 
     def get_parser(self, prog_name):
-        parser = super(ExtendExpire, self).get_parser(prog_name)
+        parser = super(CreateExclude, self).get_parser(prog_name)
         parser.add_argument(
             'id',
             metavar='<osvmexclude-object-id>',
@@ -93,7 +90,7 @@ class CreateExclude(command.Command):
             'X-Auth-Token': self.app.client_manager.auth_ref.auth_token
             }
         req = requests.post(
-            endpoint + '/vmexcludes/' + expire_id,
+            endpoint + '/vmexcludes/' + exclude_id,
             headers=headers,
             json={
                 'id': exclude_id,
@@ -109,10 +106,10 @@ class CreateExclude(command.Command):
 
 
 class DeleteExclude(command.Command):
-    """Delete osvmexpire"""
+    """Delete osvmexclude"""
 
     def get_parser(self, prog_name):
-        parser = super(DeleteExpire, self).get_parser(prog_name)
+        parser = super(DeleteExclude, self).get_parser(prog_name)
         parser.add_argument(
             'id',
             metavar='<osvmexclude-id>',
@@ -126,14 +123,14 @@ class DeleteExclude(command.Command):
         self._delete(parsed_args.id)
         return "Deleted"
 
-    def _delete(self, expire_id):
+    def _delete(self, exclude_id):
         endpoint = get_endpoint(self.app.client_manager)
         headers = {
             'Content-Type': 'application/json',
             'X-Auth-Token': self.app.client_manager.auth_ref.auth_token
             }
         req = requests.delete(
-            endpoint + '/vmexcludes/' + expire_id,
+            endpoint + '/vmexcludes/' + exclude_id,
             headers=headers
             )
         if req.status_code == 404:
@@ -146,12 +143,12 @@ class DeleteExclude(command.Command):
 
 
 class ShowExclude(command.Command):
-    """Show osvmexpire"""
+    """Show osvmexclude"""
 
     log = logging.getLogger(__name__ + '.ShowVMExclude')
 
     def get_parser(self, prog_name):
-        parser = super(ShowExpire, self).get_parser(prog_name)
+        parser = super(ShowExclude, self).get_parser(prog_name)
         parser.add_argument(
             'id',
             metavar='<osvmexclude-id>',
