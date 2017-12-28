@@ -31,7 +31,6 @@ def make_client(instance):
 
     :param ClientManager instance: The ClientManager that owns the new client
     """
-    print("##OSALLOU make_client")
     plugin_client = utils.get_client_class(
         API_NAME,
         instance._api_version[API_NAME],

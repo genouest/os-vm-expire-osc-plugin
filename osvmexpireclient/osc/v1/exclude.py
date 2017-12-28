@@ -22,17 +22,12 @@ from oslo_utils import encodeutils
 from osvmexpireclient._i18n import _
 from osvmexpireclient import exc as osvmexpire_exc
 
-SERVICE_TYPE = 'vmexpire'
+SERVICE_TYPE = 'vmexclude'
 
-EXPIRE_COLUMNS = [
+EXCLUDE_COLUMNS = [
     'id',
-    'instance_id',
-    'instance_name',
-    'project_id',
-    'user_id',
-    'expire',
-    'notified',
-    'notified_last'
+    'exclude_id',
+    'exclude_type',
     ]
 
 
@@ -61,51 +56,67 @@ def pretty_print(columns, data):
         return encodeutils.safe_encode(pt.get_string())
 
 
-class ExtendExpire(command.Command):
+class CreateExclude(command.Command):
     """Extend osvmexpire"""
 
     def get_parser(self, prog_name):
         parser = super(ExtendExpire, self).get_parser(prog_name)
         parser.add_argument(
             'id',
-            metavar='<osvmexpire-id>',
-            help=_('Name of the osvmexpire')
+            metavar='<osvmexclude-object-id>',
+            help=_('Id of the element to exclude (domain, project, user)')
+        )
+        parser.add_argument(
+            'type',
+            metavar='<osvmexclude-object-type>',
+            help=_('Type of the element to exclude [domain, project, user]')
         )
         return parser
 
     def take_action(self, parsed_args):
         # Client manager interfaces are available to plugins.
         # This includes the OSC clients created.
-        columns = EXPIRE_COLUMNS
-        return pretty_print(columns, [self._extend(parsed_args.id)])
+        columns = EXCLUDE_COLUMNS
+        return pretty_print(columns, [self._create(parsed_args.id, parsed_args.type)])
 
-    def _extend(self, expire_id):
+    def _create(self, exclude_id, exclude_type):
+        exclude_type_int = -1
+        if exclude_type == 'domain':
+            exclude_type_int = 0
+        elif exclude_type == 'project':
+            exclude_type_int = 1
+        elif exclude_type == 'user':
+            exclude_type_int = 2
         endpoint = get_endpoint(self.app.client_manager)
         headers = {
             'Content-Type': 'application/json',
             'X-Auth-Token': self.app.client_manager.auth_ref.auth_token
             }
-        req = requests.put(
-            endpoint + '/vmexpires/' + expire_id,
-            headers=headers
+        req = requests.post(
+            endpoint + '/vmexcludes/' + expire_id,
+            headers=headers,
+            json={
+                'id': exclude_id,
+                'type': exclude_type_int
+                }
             )
         if not req.status_code == 202:
-            raise osvmexpire_exc.HTTPNotFound('no expiration found')
+            raise osvmexpire_exc.HTTPNotFound('creation failed')
         res = req.json()
-        if 'vmexpire' not in res:
-            raise osvmexpire_exc.HTTPNotFound('no expiration found')
-        return res['vmexpire']
+        if 'vmexclude' not in res:
+            raise osvmexpire_exc.HTTPNotFound('no exclude created')
+        return res['vmexclude']
 
 
-class DeleteExpire(command.Command):
+class DeleteExclude(command.Command):
     """Delete osvmexpire"""
 
     def get_parser(self, prog_name):
         parser = super(DeleteExpire, self).get_parser(prog_name)
         parser.add_argument(
             'id',
-            metavar='<osvmexpire-id>',
-            help=_('Name of the osvmexpire')
+            metavar='<osvmexclude-id>',
+            help=_('Id of the exclude')
         )
         return parser
 
@@ -122,11 +133,11 @@ class DeleteExpire(command.Command):
             'X-Auth-Token': self.app.client_manager.auth_ref.auth_token
             }
         req = requests.delete(
-            endpoint + '/vmexpires/' + expire_id,
+            endpoint + '/vmexcludes/' + expire_id,
             headers=headers
             )
         if req.status_code == 404:
-            raise osvmexpire_exc.HTTPNotFound('no expiration found')
+            raise osvmexpire_exc.HTTPNotFound('no exclude found')
         elif req.status_code == 403:
             raise osvmexpire_exc.HTTPUnauthorized('not authorized')
         elif req.status_code != 204:
@@ -134,54 +145,54 @@ class DeleteExpire(command.Command):
         return
 
 
-class ShowExpire(command.Command):
+class ShowExclude(command.Command):
     """Show osvmexpire"""
 
-    log = logging.getLogger(__name__ + '.ShowVMExpire')
+    log = logging.getLogger(__name__ + '.ShowVMExclude')
 
     def get_parser(self, prog_name):
         parser = super(ShowExpire, self).get_parser(prog_name)
         parser.add_argument(
             'id',
-            metavar='<osvmexpire-id>',
-            help=_('Name of the osvmexpire')
+            metavar='<osvmexclude-id>',
+            help=_('Id of the exclude')
         )
         return parser
 
     def take_action(self, parsed_args):
         # Client manager interfaces are available to plugins.
         # This includes the OSC clients created.
-        columns = EXPIRE_COLUMNS
+        columns = EXCLUDE_COLUMNS
         return pretty_print(columns, [self._show(parsed_args.id)])
 
-    def _show(self, expire_id):
+    def _show(self, exclude_id):
         endpoint = get_endpoint(self.app.client_manager)
         headers = {
             'Content-Type': 'application/json',
             'X-Auth-Token': self.app.client_manager.auth_ref.auth_token
             }
         req = requests.get(
-            endpoint + '/vmexpires/' + expire_id,
+            endpoint + '/vmexcludes/' + exclude_id,
             headers=headers
             )
         if not req.status_code == 200:
             raise osvmexpire_exc.HTTPNotFound()
         res = req.json()
-        if 'vmexpire' not in res:
+        if 'vmexclude' not in res:
             raise osvmexpire_exc.HTTPNotFound()
-        return res['vmexpire']
+        return res['vmexclude']
 
 
-class ListExpire(command.Command):
-    """List osvmexpire"""
+class ListExclude(command.Command):
+    """List osvmexclude"""
 
-    log = logging.getLogger(__name__ + '.ListVMExpire')
+    log = logging.getLogger(__name__ + '.ListVMExclude')
 
     def take_action(self, parsed_args):
         # Client manager interfaces are available to plugins.
         # This includes the OSC clients created.
 
-        columns = EXPIRE_COLUMNS
+        columns = EXCLUDE_COLUMNS
         return pretty_print(columns, self._list())
 
     def _list(self):
@@ -190,10 +201,10 @@ class ListExpire(command.Command):
             'Content-Type': 'application/json',
             'X-Auth-Token': self.app.client_manager.auth_ref.auth_token
             }
-        req = requests.get(endpoint + '/vmexpires/', headers=headers)
+        req = requests.get(endpoint + '/vmexcludes/', headers=headers)
         if not req.status_code == 200:
             raise osvmexpire_exc.HTTPNotFound()
         res = req.json()
-        if 'vmexpires' not in res:
+        if 'vmexcludes' not in res:
             raise osvmexpire_exc.HTTPNotFound()
-        return res['vmexpires']
+        return res['vmexcludes']
