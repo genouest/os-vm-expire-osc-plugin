@@ -207,4 +207,11 @@ class ListExclude(command.Command):
         res = req.json()
         if 'vmexcludes' not in res:
             raise osvmexpire_exc.HTTPNotFound()
+        for exclude in res['vmexcludes']:
+            if exclude['exclude_type'] == 0:
+                exclude['exclude_type'] = 'domain'
+            if exclude['exclude_type'] == 1:
+                exclude['exclude_type'] = 'project'
+            if exclude['exclude_type'] == 2:
+                exclude['exclude_type'] = 'user'
         return res['vmexcludes']
