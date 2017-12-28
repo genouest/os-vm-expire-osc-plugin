@@ -22,7 +22,7 @@ from oslo_utils import encodeutils
 from osvmexpireclient._i18n import _
 from osvmexpireclient import exc as osvmexpire_exc
 
-SERVICE_TYPE = 'vmexclude'
+SERVICE_TYPE = 'vmexpire'
 
 EXCLUDE_COLUMNS = [
     'id',
