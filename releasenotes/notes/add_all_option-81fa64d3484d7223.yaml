@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Add --all option to vmexpire to list all VMs (admin only, os-vm-expire >= 0.9.7)

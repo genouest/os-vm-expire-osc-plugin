@@ -177,20 +177,32 @@ class ListExpire(command.Command):
 
     log = logging.getLogger(__name__ + '.ListVMExpire')
 
+    def get_parser(self, prog_name):
+        parser = super(ListExpire, self).get_parser(prog_name)
+        parser.add_argument(
+            '--all',
+            action='store_true',
+            help=_('List expirations for all projects (admin only)')
+        )
+        return parser
+
     def take_action(self, parsed_args):
         # Client manager interfaces are available to plugins.
         # This includes the OSC clients created.
 
         columns = EXPIRE_COLUMNS
-        return pretty_print(columns, self._list())
+        return pretty_print(columns, self._list(all=parsed_args.all))
 
-    def _list(self):
+    def _list(self, all=False):
         endpoint = get_endpoint(self.app.client_manager)
         headers = {
             'Content-Type': 'application/json',
             'X-Auth-Token': self.app.client_manager.auth_ref.auth_token
             }
-        req = requests.get(endpoint + '/vmexpires/', headers=headers)
+        req_params = ''
+        if all:
+            req_params = '?all_tenants=1'
+        req = requests.get(endpoint + '/vmexpires/' + req_params, headers=headers)
         if not req.status_code == 200:
             raise osvmexpire_exc.HTTPNotFound()
         res = req.json()
