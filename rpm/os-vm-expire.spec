@@ -1,8 +1,8 @@
 %global uname root
-Name:    python-osvmexpire
+Name:    python-osvmexpire-osc
 Version: 0.9.3
 Release: 1%{?dist}
-Summary: Openstack project for VM auto expiration
+Summary: Openstack client project for VM auto expiration
 License: Apache 2.0
 Group: Development/Libraries
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -12,12 +12,12 @@ Vendor: Olivier Sallou <olivier.sallou@irisa.fr>
 Url: https://github.com/genouest/os-vm-expire-osc-plugin
 
 Source0: os-vm-expire-osc-%{version}.tar.gz
-BuildRequires:  python-pbr
+BuildRequires:  python2-pbr
 BuildRequires:  python-setuptools
 BuildRequires:  sudo
 BuildRequires:  systemd
 
-Requires:  python-pbr
+Requires:  python2-pbr
 Requires:  python-paste
 Requires:  python-paste-deploy
 Requires:  python-oslo-config
@@ -61,6 +61,8 @@ User cannot extend it more than configured duration.
 
 %prep
 %setup -n os-vm-expire-%{version}
+yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+yum install -y centos-release-openstack-stein
 
 %build
 PBR_VERSION=%{version} python setup.py build
