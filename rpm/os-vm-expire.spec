@@ -9,9 +9,9 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Prefix: %{_prefix}
 BuildArch: noarch
 Vendor: Olivier Sallou <olivier.sallou@irisa.fr>
-Url: https://github.com/genouest/os-vm-expire
+Url: https://github.com/genouest/os-vm-expire-osc-plugin
 
-Source0: os-vm-expire-%{version}.tar.gz
+Source0: os-vm-expire-osc-%{version}.tar.gz
 BuildRequires:  python-pbr
 BuildRequires:  python-setuptools
 BuildRequires:  sudo
