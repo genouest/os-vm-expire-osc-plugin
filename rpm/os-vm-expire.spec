@@ -45,13 +45,11 @@ Requires(preun): systemd
 
 %description
 
-Manage VM expiration and auto-deletion in an Openstack cloud.
+OSC plugin to manage VM expiration and auto-deletion in an Openstack cloud.
 This project is an unofficial Openstack project, but follows Openstack projects architecture, with a Horizon plugin and associated services.
 
 * Free software: Apache license
-* Documentation: http://os-vm-expire.readthedocs.io/
-* Bugs: https://github.com/genouest/os-vm-expire/issues
-* Horizon plugin: https://github.com/genouest/os-vm-expire-horizon-plugin
+* Bugs: https://github.com/genouest/os-vm-expire-osc-plugin/issues
 
 The Openstack VmExpiration Management service adds an expiration to VMs.
 After expiration, VM is deleted.
@@ -60,7 +58,7 @@ Expiration extend is not limited, user can always extend a VM, but it will be ex
 User cannot extend it more than configured duration.
 
 %prep
-%setup -n os-vm-expire-%{version}
+%setup -n %{name}-%{version}
 
 %build
 PBR_VERSION=%{version} python setup.py build
