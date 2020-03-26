@@ -1,5 +1,5 @@
 %global uname root
-Name:    python-osvmexpire-osc
+Name:    os-vm-vmexpire-osc
 Version: 0.9.3
 Release: 1%{?dist}
 Summary: Openstack client project for VM auto expiration
