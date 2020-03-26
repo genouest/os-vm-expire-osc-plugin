@@ -46,7 +46,8 @@ Requires(preun): systemd
 %description
 
 OSC plugin to manage VM expiration and auto-deletion in an Openstack cloud.
-This project is an unofficial Openstack project, but follows Openstack projects architecture, with a Horizon plugin and associated services.
+This project is an unofficial Openstack project, but follows Openstack
+projects architecture, with a Horizon plugin and associated services.
 
 * Free software: Apache license
 * Bugs: https://github.com/genouest/os-vm-expire-osc-plugin/issues
@@ -54,7 +55,8 @@ This project is an unofficial Openstack project, but follows Openstack projects 
 The Openstack VmExpiration Management service adds an expiration to VMs.
 After expiration, VM is deleted.
 User can extend the VM lifetime via API or Horizon.
-Expiration extend is not limited, user can always extend a VM, but it will be extended only for a configured duration.
+Expiration extend is not limited, user can always extend a VM, but it will
+be extended only for a configured duration.
 User cannot extend it more than configured duration.
 
 %prep
@@ -73,5 +75,5 @@ rm -rf $RPM_BUILD_ROOT
 %license LICENSE
 
 %changelog
-* Thu Mar 26 2020 Olivier Sallou <olivier.sallou@irisa.fr> 0.9-1
+* Thu Mar 26 2020 Olivier Sallou <olivier.sallou@irisa.fr> 0.9.3-1
 - Add rpm packagign file
