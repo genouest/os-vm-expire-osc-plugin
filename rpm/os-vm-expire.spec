@@ -12,6 +12,8 @@ Vendor: Olivier Sallou <olivier.sallou@irisa.fr>
 Url: https://github.com/genouest/os-vm-expire-osc-plugin
 
 Source0: os-vm-expire-osc-%{version}.tar.gz
+BuildRequires:  epel-release
+BuildRequires:  centos-release-openstack-stein
 BuildRequires:  python2-pbr
 BuildRequires:  python-setuptools
 BuildRequires:  sudo
@@ -61,8 +63,6 @@ User cannot extend it more than configured duration.
 
 %prep
 %setup -n os-vm-expire-%{version}
-yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-yum install -y centos-release-openstack-stein
 
 %build
 PBR_VERSION=%{version} python setup.py build
